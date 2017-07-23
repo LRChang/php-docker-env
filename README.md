@@ -16,6 +16,7 @@ mysql 与 php-apache 均使用[网易蜂巢](https://c.163.com/hub)从 [DockerHu
 * [Mac 安装 docker](https://www.docker.com/docker-mac)
 * [Windows 安装 docker](https://www.docker.com/docker-windows)
 * [其它用户](https://www.docker.com/)
+* [docker 快速入门](https://docs.docker.com/get-started/)
 
 ### 拉取镜像
 执行以下命令，获取[mysql](https://hub.docker.com/_/mysql/)镜像
@@ -84,3 +85,35 @@ docker rm myserver
 docker build -t webserver ./docker/
 docker run --name myserver -v "$PWD"/src:/var/www/html -p 8080:80  -e XDEBUG_CONFIG="remote_host=192.168.1.102" -d webserver
 ```
+
+
+## 与容器交互
+```sh
+docker exec [容器名] [容器执行的命令]
+```
+* 以上命令可在主机中，让容器执行一条特定的命令。
+* 加入 -i 标志可保持主机对容器对输入。
+* 加入 -t 标志可让容器打开一个伪终端。
+* 更多用法请执行命令  docker exec --help
+
+所以我们可以这样与 mysql 交互：
+```sh
+docker exec -it mydb mysql -h 127.0.0.1 -u root -p root
+```
+此命令将打开一个终端，并与 mysql 连接。（假设 mysql root 用户对密码为 root）
+```sh
+exit
+```
+可退出终端。
+
+### 进入容器执行更多命令
+```sh
+docker exec -it myserver /bin/bash
+```
+以上命令可进入 myserver 容器，并可在容器内执行更多命令，如 ls, cd, ps ...
+
+更多请参阅 [docker 快速入门](https://docs.docker.com/get-started/)
+
+互相学习交流可加 QQ：568499182
+
+学习愉快！
