@@ -98,9 +98,9 @@ docker exec [容器名] [容器执行的命令]
 
 所以我们可以这样与 mysql 交互：
 ```sh
-docker exec -it mydb mysql -h 127.0.0.1 -u root -p root
+docker exec -it mydb mysql -h 127.0.0.1 -u root -p
 ```
-此命令将打开一个终端，并与 mysql 连接。（假设 mysql root 用户对密码为 root）
+此命令将打开一个终端，输入 mysql root 用户密码后，可连接 mysql。
 ```sh
 exit
 ```
