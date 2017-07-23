@@ -1,23 +1,23 @@
-#php-docker-env
+# php-docker-env
 帮助初次接触 docker 的 php 开发者，快速构建 docker 化的 php 开发环境。
 
-###包涵的组件
+### 包涵的组件
 * mysql : 5.7.18
 * php : 7.1.7
 * xdebug : 2.5.5
 * apache : 2.4.10
 
-###关于镜像源
+### 关于镜像源
 mysql 与 php-apache 均使用[网易蜂巢](https://c.163.com/hub)从 [DockerHub](https://hub.docker.com/explore/)  拉取的官方镜像
 * 浏览[网易蜂巢](https://c.163.com/hub)可能需要登录
 
-#快速开始
+# 快速开始
 请确保已经安装 docker
 * [Mac 安装 docker](https://www.docker.com/docker-mac)
 * [Windows 安装 docker](https://www.docker.com/docker-windows)
 * [其它用户](https://www.docker.com/)
 
-###拉取镜像
+### 拉取镜像
 执行以下命令，获取[mysql](https://hub.docker.com/_/mysql/)镜像
 ```sh
 docker pull hub.c.163.com/library/mysql:5.7.18
@@ -27,15 +27,15 @@ docker pull hub.c.163.com/library/mysql:5.7.18
 docker pull hub.c.163.com/library/php:7.1.7-apache
 ```
 
-###构建自己的镜像
+### 构建自己的镜像
 以上，我们已经获取到了两个基础镜像，使用 docker run 命令就能使用了。但开发环境中，我们还需为PHP安装xdebug插件以方便调试，以及配置 php 和 apache。所以我们要在 php-apache 这个镜像的基础上自定义一个镜像。./docker/Dockerfile 中已经定义好 docker 该如何构建这个镜像。我们只需：
 ```sh
 docker build -t webserver ./docker/
 ```
 就能构建一个名为 webserver 的镜像。（构建镜像可能需要一些时间）
 
-###创建容器（运行镜像）
-####启动 mysql
+### 创建容器（运行镜像）
+#### 启动 mysql
 第一次启动 mysql 需执行以下命令：
 ```sh
 docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=root hub.c.163.com/library/mysql:5.7.18
@@ -50,7 +50,7 @@ docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_R
 docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=root hub.c.163.com/library/mysql:5.7.18
 ```
 
-####启动 php-apache
+#### 启动 php-apache
 也就是我们构建的 webserver 镜像：
 ```sh
 docker run --name myserver -v "$PWD"/src:/var/www/html -p 8080:80  -e XDEBUG_CONFIG="remote_host=192.168.1.102" -d webserver
@@ -63,19 +63,19 @@ docker run --name myserver -v "$PWD"/src:/var/www/html -p 8080:80  -e XDEBUG_CON
 
 至此，我们已经成功启动了我们的 php 开发环境
 
-##进行项目开发
+## 进行项目开发
 将你的 php 项目代码放入 ./src/ 目录，编辑代码，将可得到 myserver 容器的实时响应。
 这里我们以 [ThinkPHP5框架](https://github.com/top-think/think) 为例子：
 浏览器输入 http://localhost:8080/pulbic/ 即可访问到[ThinkPHP5框架](https://github.com/top-think/think)的欢迎页面。
 
-##配置文件
-####文件位置
+## 配置文件
+#### 文件位置
 * apache 主配置文件位于主机 ./docker/conf/apache2.conf 对应于容器的 /etc/apache2/apache2.conf
 * xdebug 配置文件位于主机 ./docker/conf/docker-php-ext-xdebug.ini 对应于容器的 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 * php 主配置文件位于 ./docker/conf/php.ini 对应于容器的 /usr/local/etc/php/php.ini
 * 虚拟域名配置文件统一放置于 ./docker/vhost/ 对应于容器的 /etc/apache2/sites-enabled/
 
-####配置生效
+#### 配置生效
 由于配置文件在docker容器创建时就被打包到容器中，所以无法动态更改。
 当更改配置后，需要停止并删除当前运行的容器，重新创建容器即可：
 ```sh
