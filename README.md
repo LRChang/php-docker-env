@@ -67,7 +67,7 @@ docker run --name myserver -v "$PWD"/src:/var/www/html -p 8080:80  -e XDEBUG_CON
 ## 进行项目开发
 将你的 php 项目代码放入 ./src/ 目录，编辑代码，将可得到 myserver 容器的实时响应。
 这里我们以 [ThinkPHP5框架](https://github.com/top-think/think) 为例子：
-浏览器输入 http://localhost:8080/pulbic/ 即可访问到[ThinkPHP5框架](https://github.com/top-think/think)的欢迎页面。
+浏览器输入 http://localhost:8080/public/ 即可访问到[ThinkPHP5框架](https://github.com/top-think/think)的欢迎页面。
 
 ## 配置文件
 #### 文件位置
