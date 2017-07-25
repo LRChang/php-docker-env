@@ -48,7 +48,7 @@ docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_R
 * 将 mysql 的 root 用户密码设置为root。以后在 ./mysql/ 目录运行 mysql 镜像 将不用带 -e MYSQL_ROOT_PASSWORD=root 参数。
 可直接执行：
 ```sh
-docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=root hub.c.163.com/library/mysql:5.7.18
+docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d hub.c.163.com/library/mysql:5.7.18
 ```
 
 #### 启动 php-apache
