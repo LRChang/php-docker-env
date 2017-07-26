@@ -29,26 +29,34 @@ docker pull hub.c.163.com/library/php:7.1.7-apache
 ```
 
 ### 构建自己的镜像
+#### webserver镜像
 以上，我们已经获取到了两个基础镜像，使用 docker run 命令就能使用了。但开发环境中，我们还需为PHP安装xdebug插件以方便调试，以及配置 php 和 apache。所以我们要在 php-apache 这个镜像的基础上自定义一个镜像。./docker/Dockerfile 中已经定义好 docker 该如何构建这个镜像。我们只需：
 ```sh
 docker build -t webserver ./docker/
 ```
 就能构建一个名为 webserver 的镜像。（构建镜像可能需要一些时间）
 
+#### database镜像
+根据 hub.c.163.com/library/mysql:5.7.18 镜像创建 database 镜像：
+```sh
+docker build -t database ./docker/mysql/
+```
+就能构建一个名为 database 的镜像。（构建镜像可能需要一些时间）
+
 ### 创建容器（运行镜像）
 #### 启动 mysql
 第一次启动 mysql 需执行以下命令：
 ```sh
-docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=root hub.c.163.com/library/mysql:5.7.18
+docker run --name mydata -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=root database
 ```
 命令详解：
-* 这条命令根据 hub.c.163.com/library/mysql:5.7.18 镜像，创建并运行了一个名为 mydb 的容器。
-* 将此目录下的 mysql 目录挂载到 ./mydb 容器的 /var/lib/mysql 目录，mydb 运行时所产生的数据将得到保存。
-* 将主机的 3306 端口映射到 mydb 容器中的 3306 端口。
+* 这条命令根据 database 镜像，创建并运行了一个名为 mydata 的容器。
+* 将此目录下的 mysql 目录挂载到 ./mydata 容器的 /var/lib/mysql 目录，mydata 运行时所产生的数据将得到保存。
+* 将主机的 3306 端口映射到 mydata 容器中的 3306 端口。
 * 将 mysql 的 root 用户密码设置为root。以后在 ./mysql/ 目录运行 mysql 镜像 将不用带 -e MYSQL_ROOT_PASSWORD=root 参数。
 可直接执行：
 ```sh
-docker run --name mydb -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d hub.c.163.com/library/mysql:5.7.18
+docker run --name mydata -v "$PWD"/mysql:/var/lib/mysql -p 3306:3306 -d database
 ```
 
 #### 启动 php-apache
@@ -98,7 +106,7 @@ docker exec [容器名] [容器执行的命令]
 
 所以我们可以这样与 mysql 交互：
 ```sh
-docker exec -it mydb mysql -h 127.0.0.1 -u root -p
+docker exec -it mydata mysql -h 127.0.0.1 -u root -p
 ```
 此命令将打开一个终端，输入 mysql root 用户密码后，可连接 mysql。
 ```sh
