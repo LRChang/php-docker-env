@@ -120,6 +120,14 @@ docker exec -it myserver /bin/bash
 ```
 以上命令可进入 myserver 容器，并可在容器内执行更多命令，如 ls, cd, ps ...
 
+## 再次运行容器
+电脑重启或退出docker后，再次启动docker，之前运行的容器不会自动运行，我们可以这样启动它们
+```sh
+docker start mydata //启动MySQL
+docker start webserver  //启动php和apache
+```
+
+
 更多请参阅 [docker 快速入门](https://docs.docker.com/get-started/)
 
 互相学习交流可加 QQ：568499182
