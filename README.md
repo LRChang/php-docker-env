@@ -82,7 +82,7 @@ docker run --name myserver -v "$PWD"/src:/var/www/html -p 8080:80  -e XDEBUG_CON
 * apache 主配置文件位于主机 ./docker/conf/apache2.conf 对应于容器的 /etc/apache2/apache2.conf
 * xdebug 配置文件位于主机 ./docker/conf/docker-php-ext-xdebug.ini 对应于容器的 /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 * php 主配置文件位于 ./docker/conf/php.ini 对应于容器的 /usr/local/etc/php/php.ini
-* 虚拟域名配置文件统一放置于 ./docker/vhost/ 对应于容器的 /etc/apache2/sites-enabled/
+* 虚拟域名配置文件统一放置于 ./docker/vhost/ 对应于容器的 /etc/apache2/sites-enabled/ （如果设置了虚拟域名，记得更改hosts文件）
 
 #### 配置生效
 由于配置文件在docker容器创建时就被打包到容器中，所以无法动态更改。
