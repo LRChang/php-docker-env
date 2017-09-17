@@ -124,11 +124,12 @@ docker exec -it myserver /bin/bash
 电脑重启或退出docker后，再次启动docker，之前运行的容器不会自动运行，我们可以这样启动它们
 ```sh
 docker start mydata //启动MySQL
-docker start webserver  //启动php和apache
+docker start myserver  //启动php和apache
 ```
+docker start 后接的是容器的名称
 
 
-更多请参阅 [docker 快速入门](https://docs.docker.com/get-started/)
+#### 更多请参阅 [docker 快速入门](https://docs.docker.com/get-started/)
 
 互相学习交流可加 QQ：568499182
 
